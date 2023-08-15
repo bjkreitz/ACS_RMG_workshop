@@ -1,0 +1,139 @@
+Global RMG Settings:
+   database.directory   = /Users/bjkreitz/RMG/RMG-database/input (Default, relative to RMG-Py source code)
+   test_data.directory  = /Users/bjkreitz/RMG/RMG-Py/rmgpy/test_data (Default, relative to RMG-Py source code)
+RMG execution initiated at Wed Jul 19 10:23:56 2023
+
+#########################################################
+# RMG-Py - Reaction Mechanism Generator in Python       #
+# Version: 3.1.0                                        #
+# Authors: RMG Developers (rmg_dev@mit.edu)             #
+# P.I.s:   William H. Green (whgreen@mit.edu)           #
+#          Richard H. West (r.west@neu.edu)             #
+# Website: http://reactionmechanismgenerator.github.io/ #
+#########################################################
+
+The current git HEAD for RMG-Py is:
+	b'215eb1bef229d0f54217b6b8b6fff944c750180b'
+	b'Fri Jul 14 22:36:47 2023 -0400'
+
+The current git HEAD for RMG-database is:
+	b'75fabcb6cca6641e48a8c6cfee14e27f539c2ae4'
+	b'Tue May 30 09:48:59 2023 -0400'
+
+Reading input file "/Users/bjkreitz/Documents/RMG_workshop/rmg-workshop/RMG_workshop/RMG_exercises/Exercise_files/Exercise4_catalytic_hydrogenation/input.py"...
+# Data sources
+database(
+    thermoLibraries=['surfaceThermoPt111', 'primaryThermoLibrary','DFT_QCI_thermo', 'thermo_DFT_CCSDTF12_BAC'], 
+    reactionLibraries = [('Surface/Deutschmann_Ni', True)], 
+    seedMechanisms = [],
+    kineticsDepositories = ['training'],
+    kineticsFamilies = ['surface'],
+    kineticsEstimator = 'rate rules',
+)
+
+catalystProperties(
+    bindingEnergies = {  # values for Ni(111) calculated with VASP
+                        'H': (-2.76, 'eV/molecule'),
+                        'O': (-4.7, 'eV/molecule'),
+                        'C': (-6.45, 'eV/molecule'),
+                        'N': (-4.352, 'eV/molecule'), 
+                      },
+    surfaceSiteDensity=(3.16e-9, 'mol/cm^2'), # values for Ni(111)
+)
+
+# List of species
+
+species(
+    label='CO2',
+    reactive=True,
+    structure=SMILES("O=C=O"),
+)
+
+species(
+    label='H2',
+    reactive=True,
+    structure=SMILES("[H][H]"),
+)
+
+#-------
+species(
+    label='site',
+    reactive=True,
+    structure=adjacencyList("1 X u0"),
+)
+
+#----------
+# Reaction systems
+
+surfaceReactor(
+    temperature=(673,'K'),
+    initialPressure=(1.0, 'bar'),
+    initialGasMoleFractions={
+        "CO2": 1.0,
+        "H2": 4.0,
+    },
+    initialSurfaceCoverages={
+        "site": 1.0,
+    },
+    surfaceVolumeRatio=(1.e5, 'm^-1'),
+    terminationConversion={
+                'CO2': 0.9,
+        },
+)
+
+simulator(
+    atol=1e-18,
+    rtol=1e-12,
+)
+
+model(
+    toleranceKeepInEdge=1e-3,
+    toleranceMoveToCore=1e-1,
+    toleranceInterruptSimulation=1e-1,
+    maximumEdgeSpecies=10000
+)
+
+generatedSpeciesConstraints(maximumSurfaceSites=1)
+
+options(
+    units='si',
+    saveRestartPeriod=None,
+    generateSeedEachIteration=False,
+    saveSeedToDatabase=False,
+    generateOutputHTML=True,
+    generatePlots=False, 
+    saveEdgeSpecies=True,
+    saveSimulationProfiles=True,
+    verboseComments=False,
+    saveSeedModulus=-1
+)
+
+Using binding energies:
+{'C': (-6.45,'eV/molecule'), 'H': (-2.76,'eV/molecule'), 'O': (-4.7,'eV/molecule'), 'N': (-4.352,'eV/molecule')}
+Using surface site density: (3.16e-09,'mol/cm^2')
+Coverage dependence is turned OFF
+Warning: Initial gas mole fractions do not sum to one; renormalizing.
+
+
+Surface reaction system 1
+Gas phase mole fractions:
+  CO2                  0.2
+  H2                   0.8
+Total gas phase:          1 moles
+Pressure:                 1e+05 Pa
+Temperature:              673.0 K
+Reactor volume:           0.056 m3
+Surface/volume ratio:     1e+05 m2/m3
+Surface site density:     3.16e-05 mol/m2
+Surface sites in reactor: 0.177 moles
+Initial surface coverages (and amounts):
+  site               1 = 0.17682 moles
+Warning: Generate Output HTML option was turned on. Note that this will slow down model generation.
+Warning: Edge species saving was turned on. This will slow down model generation for large simulations.
+
+Loading transport library from GRI-Mech.py in /Users/bjkreitz/RMG/RMG-database/input/transport/libraries...
+Loading transport library from OneDMinN2.py in /Users/bjkreitz/RMG/RMG-database/input/transport/libraries...
+Loading transport library from NOx2018.py in /Users/bjkreitz/RMG/RMG-database/input/transport/libraries...
+Loading transport library from NIST_Fluorine.py in /Users/bjkreitz/RMG/RMG-database/input/transport/libraries...
+Loading transport library from PrimaryTransportLibrary.py in /Users/bjkreitz/RMG/RMG-database/input/transport/libraries...
+Loading transport group database from /Users/bjkreitz/RMG/RMG-database/input/transport/groups...
