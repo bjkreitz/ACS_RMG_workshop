@@ -1,11 +1,11 @@
 # Data sources
 database(
-    thermoLibraries = ['primaryThermoLibrary'],
-    reactionLibraries = [],
-    seedMechanisms = [],
-    kineticsDepositories = ['training'],
-    kineticsFamilies = 'default',
-    kineticsEstimator = 'rate rules',
+    thermoLibraries = ['primaryThermoLibrary'], #add the thermo librarys that are important for your system
+    reactionLibraries = [], #load a pre-compiled list of parameterized reactions
+    seedMechanisms = [], #you can 'seed' the core with a mechanism
+    kineticsDepositories = ['training'], #load the default training data for the reaction
+    kineticsFamilies = 'default', #load all the families you think you'll need (default loads everything)
+    kineticsEstimator = 'rate rules', #use rate rules to estimate the kinetics
 )
 
 # List of species
@@ -46,11 +46,11 @@ simulator(
 )
 
 model(
-    toleranceKeepInEdge=0.0,
-    toleranceMoveToCore=0.1,
-    toleranceInterruptSimulation=0.1,
+    toleranceKeepInEdge=0.0, #if the production rate is below this threshold, the species is removed from the edge
+    toleranceMoveToCore=0.1, #if the production rate exceeds this threshold, the species is moved to the core
+    toleranceInterruptSimulation=0.1, #if the production rate of a species exceeds this threshold, the generation interrupted
     maximumEdgeSpecies=100000,
-    filterReactions=True,
+    filterReactions=True, #filter out reactions that are too slow
 )
 
 options(
